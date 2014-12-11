@@ -1,0 +1,43 @@
+body {
+	background-image: radial-gradient(gray, black);
+	background-repeat: repeat-y;
+	height: 100%;
+
+}
+
+.container {
+	text-align: center;
+	display: inline-block;
+	width: 100%;
+}
+
+.game-board {
+	width: 469px;
+	font-size: 0;
+	display: inline-block;
+	border: 20px solid mintcream;
+	border-style: ridge;
+}
+
+.game-square {
+	width: 150px;
+	height: 150px;
+	border: 3px solid black;
+	display: inline-block;
+	background-color: white;
+	font-size: 12px;	
+}
+
+.game-square.unselected-square {
+	background-color: white;
+}
+
+.game-square.x-selected {
+	background-image: url("../img/letter-x.jpeg");
+	width: 150px;
+	height: 150px;
+}
+
+.game-square.o-selected {
+	background-image: url("../img/letter-o.jpg");
+}

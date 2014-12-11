@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 
-<html ng-app>
+<html ng-app="TicTacToe">
 	<head>
 		<meta charset="utf-8">
 
-		<title>An HTML Page</title>
+		<title>Tic Tac Toe</title>
 
 		<!--[if lt IE 9]>
 		<script src="js/html5shiv.js"></script>
@@ -15,8 +15,26 @@
 		
 		<script src="js/angular.js"></script>
 		<script src="js/app.js"></script>
+		<script src="js/BoardManager.js"></script>
+		<script src="js/PlayerManager.js"></script>
+		<script src="js/TicTacToeController.js"></script>
 	</head>
 
-	<body>
+	<body ng-controller="TicTacToeController as tic">
+		<div class="container">
+			<header>
+				<h1>Tic-Tac-Toe</h1>
+				<h1>{{ tic.board.squares }}</h1>
+			</header>
+			<main>
+				<div class="game-board">
+					<div class="game-square" 
+					ng-repeat="square in tic.board.squares track by $index"
+					ng-click="tic.board.toggleState($index)"
+					ng-class="tic.board.getSquareState($index)"
+					>{{$index}}</div>
+				</div>
+			</main>
+		</div>
 	</body>
 </html>
