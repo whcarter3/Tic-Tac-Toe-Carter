@@ -33,7 +33,6 @@ function BoardManager (PlayerManager, numSquares) {
 					playerCounter = 1;
 				}
 				turnCounter ++;
-				console.log(turnCounter)
 			}
 			if (self.winCombo("X")) {
 				alert ("X Wins!");
@@ -43,6 +42,7 @@ function BoardManager (PlayerManager, numSquares) {
 				alert ("O Wins!");
 				self.clearBoard();
 			}
+			//if after 9 turns & no winner = cat's game
 			if (turnCounter == 9) {
 				alert ("Cat's Game");
 				self.clearBoard();
@@ -67,7 +67,8 @@ function BoardManager (PlayerManager, numSquares) {
 		// function getSquareState (num) {
 		// 	return SQUARE_STATE[self.squares[num]];
 		// }
-		//sets the index number of the state of the square array to 0
+
+		//sets the value of each square to an empty string & resets the turn conter
 		function clearBoard() {
 			for (var i = 0; i < self.squares.length; i++) {
 				self.squares[i] = "";
