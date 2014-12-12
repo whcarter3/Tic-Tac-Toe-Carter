@@ -2,53 +2,67 @@ angular
 	.module('TicTacToe')
 	.factory('BoardManager', BoardManager);
 
-BoardManager.$inject = ['PlayerManager'];
-
-function BoardManager (PlayerManager, numSquares) {
+function BoardManager () {
 	var SQUARE_STATE = ['unselected-square', 'x-selected', 'o-selected'];
 
-	var board = function  (numSquares) {
+	var gameBoard = function  (numSquares) {
 		var self = this;
-		// self.numSquares 	= numSquares;
 		self.squares 		= new Array( numSquares );
 		self.switchTurn 	= switchTurn;
-		// self.getSquareState = getSquareState;
 		self.clearBoard 	= clearBoard;
 		self.winCombo 		= winCombo;
+		self.gameOver		= gameOver;
+		self.xCounter 		= xCounter;
+		self.oCounter		= oCounter;
 
 		self.clearBoard();
-
-		//switches between an index of 0, 1, 2 in the array
 		
-		var playerCounter = 1;
-		var turnCounter = 0;
-		function switchTurn (num) {
-			// this.squares[num] = (this.squares[num] + 1) % SQUARE_STATE.length;
-			if (self.squares[num] == 0) {	
+		var playerCounter 	= 1;
+		var turnCounter 	= 0;
+		var xCounter		= 0;
+		var oCounter		= 0;
+		var gameOver 		= false;
+		
+		function switchTurn (index) {
+			//if the content of the squares div (referred to by index) is equal to "" allow players to click squares
+			if (self.squares[index] == "") {	
 				if (playerCounter == 1) {
-					self.squares[num] = "X";
-					playerCounter = 2;
+					self.squares[index] = "X";
+					playerCounter 		= 2;
+					whoseTurn.innerHTML = ("It's X's Turn")
+
 				} else {
-					self.squares[num] = "O";
-					playerCounter = 1;
+					self.squares[index] = "O";
+					playerCounter 		= 1;
+					whoseTurn.innerHTML	= ("It's O's Turn")
 				}
 				turnCounter ++;
 			}
+			if (gameOver = true) {
+				//disallow player to click on any more squares
+			};
+			//if any of the win combos = X, player X wins
 			if (self.winCombo("X")) {
-				alert ("X Wins!");
-				self.clearBoard();
+				banner.innerHTML	= ("X WINS!");
+				gameOver 			= true;
+				playerCounter 		= 1;
+				xCounter ++;
+				console.log(xCounter);
 			}
+			//if any of the win combos = X, player X wins
 			if (self.winCombo("O")) {
-				alert ("O Wins!");
-				self.clearBoard();
+				banner.innerHTML	= ("0 WINS!");
+				gameOver 			= true;
+				playerCounter 		= 1;
+				oCounter ++;
+				console.log(oCounter);
 			}
 			//if after 9 turns & no winner = cat's game
 			if (turnCounter == 9) {
-				alert ("Cat's Game");
-				self.clearBoard();
+				banner.innerHTML	= ("CAT'S GAME!");
+				gameOver 			= true;
 			}
 		}
-
 		//all possible win scenarios
 		function winCombo (marker) {
 			return (
@@ -62,19 +76,15 @@ function BoardManager (PlayerManager, numSquares) {
 					(self.squares[0] == marker && self.squares[4] == marker && self.squares[8] == marker) 
 				)
 		}
-
-		//switches the index number of SQUARE STATE in order to flip through each class
-		// function getSquareState (num) {
-		// 	return SQUARE_STATE[self.squares[num]];
-		// }
-
 		//sets the value of each square to an empty string & resets the turn conter
 		function clearBoard() {
 			for (var i = 0; i < self.squares.length; i++) {
 				self.squares[i] = "";
 			}
 			turnCounter = 0;
+			gameOver = false;
+			banner.innerHTML= ("TIC TAC MARIO");
 		}
 	};
-	return board;
+	return gameBoard;
 }

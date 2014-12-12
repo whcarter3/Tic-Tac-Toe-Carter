@@ -2,13 +2,13 @@ angular
 	.module('TicTacToe')
 	.controller('TicTacToeController', TicTacToeController);
 
-TicTacToeController.$inject = ['BoardManager', 'PlayerManager'];
+TicTacToeController.$inject = ['BoardManager'];
 
-function TicTacToeController (BoardManager, PlayerManager) {
+function TicTacToeController (BoardManager) {
 	var NUM_SQUARES = 9;
 
 	this.board = new BoardManager( NUM_SQUARES );
-	this.player = new PlayerManager ( NUM_SQUARES );
+	
 
 		
 
