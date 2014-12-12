@@ -17,6 +17,8 @@ body {
 	display: inline-block;
 	border: 20px solid mintcream;
 	border-style: ridge;
+	margin: 0 auto;
+	text-align: center;
 }
 
 .game-square {
@@ -25,7 +27,8 @@ body {
 	border: 3px solid black;
 	display: inline-block;
 	background-color: white;
-	font-size: 12px;	
+	font-size: 150px;
+	vertical-align: top;
 }
 
 .game-square.unselected-square {

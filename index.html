@@ -30,9 +30,9 @@
 				<div class="game-board">
 					<div class="game-square" 
 					ng-repeat="square in tic.board.squares track by $index"
-					ng-click="tic.board.toggleState($index)"
+					ng-click="tic.board.switchTurn($index)"
 					ng-class="tic.board.getSquareState($index)"
-					>{{$index}}</div>
+					>{{tic.board.squares[$index]}}</div>
 				</div>
 			</main>
 		</div>
