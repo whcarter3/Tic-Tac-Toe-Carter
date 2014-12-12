@@ -24,15 +24,15 @@
 		<div class="container">
 			<header>
 				<h1>Tic-Tac-Toe</h1>
-				<h1>{{ tic.board.squares }}</h1>
+				<button ng-click="tic.board.clearBoard()">Clear Board</button>
 			</header>
 			<main>
 				<div class="game-board">
 					<div class="game-square" 
 					ng-repeat="square in tic.board.squares track by $index"
-					ng-click="tic.board.switchTurn($index)"
-					ng-class="tic.board.getSquareState($index)"
-					>{{tic.board.squares[$index]}}</div>
+					ng-click="tic.board.switchTurn($index)">
+					<!-- ng-class="tic.board.getSquareState($index)" -->
+					{{tic.board.squares[$index]}}</div>
 				</div>
 			</main>
 		</div>
