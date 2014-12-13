@@ -41,6 +41,7 @@ body {
 .scoreboard {
 	font-family: 'press_start_2pregular';
 	color: white;
+	text-shadow: 3px 3px black;
 	display: inline-block;
 	margin-top: 8px;
 }
@@ -52,24 +53,31 @@ body {
 
 #right {
 	float: right;
-	margin-right: 25px
+	margin-right: 35px
+}
+
+#whoseTurn {
+	font-size: 20px;
+	margin-bottom: 5px;
 }
 
 h1 {
 	font-family: 'press_start_2pregular';
-	font-size: 60px;
+	font-size: 50px;
 	color: white;
-	margin-bottom: 15px;
+	margin: 20px 0;
+	text-shadow: 5px 5px black;
 }
 
 button {
 	border-radius: 5px;
-	background: #C84D0A;
+	background-image: url('../img/mario-brick.png');
 	color: white;
 	font-family: 'press_start_2pregular';
+	text-shadow: 3px 3px black;
 	color: white;
 	padding: 15px 30px;
-	margin: 10px;
+	margin: 5px 10px;
 	display: inline-block;
 	letter-spacing: 1px;
 }

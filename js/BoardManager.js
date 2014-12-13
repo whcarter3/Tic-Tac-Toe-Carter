@@ -2,8 +2,12 @@ angular
 	.module('TicTacToe')
 	.factory('BoardManager', BoardManager);
 
-function BoardManager () {
+BoardManager.$inject=['$firebase']
+
+function BoardManager ($firebase) {
 	var SQUARE_STATE = ['unselected-square', 'x-selected', 'o-selected'];
+
+
 
 	var gameBoard = function  (numSquares) {
 		var self = this;
@@ -14,14 +18,29 @@ function BoardManager () {
 		self.gameOver		= gameOver;
 		self.xCounter 		= xCounter;
 		self.oCounter		= oCounter;
-
+		self.getBoard		= getBoard();
+		self.isActive 		= isActive;
 		self.clearBoard();
 		
-		var playerCounter 	= 1;
 		var turnCounter 	= 0;
+		var playerCounter 	= 1;
 		var xCounter		= 0;
 		var oCounter		= 0;
 		var gameOver 		= false;
+
+		function getBoard () {
+			var ref 	= new Firebase ("https://tictacmario.firebaseio.com/")
+			var game 	= $firebase(ref).$asObject();
+
+			return game;
+		}
+
+		//if game over === true, it won't run switchTurn
+		function isActive (index) {
+			if (gameOver === false) {
+				switchTurn(index);
+			};
+		}
 		
 		function switchTurn (index) {
 			//if the content of the squares div (referred to by index) is equal to "" allow players to click squares
@@ -29,38 +48,37 @@ function BoardManager () {
 				if (playerCounter == 1) {
 					self.squares[index] = "X";
 					playerCounter 		= 2;
-					whoseTurn.innerHTML = ("It's X's Turn")
-
+					whoseTurn.innerHTML = ("It's O's Turn");
 				} else {
 					self.squares[index] = "O";
 					playerCounter 		= 1;
-					whoseTurn.innerHTML	= ("It's O's Turn")
+					whoseTurn.innerHTML	= ("It's X's Turn")
 				}
 				turnCounter ++;
+				console.log("Turn counter =" + turnCounter);
 			}
-			if (gameOver = true) {
-				//disallow player to click on any more squares
-			};
-			//if any of the win combos = X, player X wins
+
 			if (self.winCombo("X")) {
 				banner.innerHTML	= ("X WINS!");
 				gameOver 			= true;
-				playerCounter 		= 1;
-				xCounter ++;
-				console.log(xCounter);
+				xCounter++;
+				left.innerHTML 		= ("X Score: " + xCounter.toString());
 			}
 			//if any of the win combos = X, player X wins
 			if (self.winCombo("O")) {
 				banner.innerHTML	= ("0 WINS!");
 				gameOver 			= true;
-				playerCounter 		= 1;
 				oCounter ++;
-				console.log(oCounter);
+				right.innerHTML		= ("O Score: " + oCounter.toString());
 			}
 			//if after 9 turns & no winner = cat's game
 			if (turnCounter == 9) {
 				banner.innerHTML	= ("CAT'S GAME!");
 				gameOver 			= true;
+			}
+			if (gameOver == true) {
+				whoseTurn.innerHTML	= ("GAME OVER!");
+				turnCounter			= 0;
 			}
 		}
 		//all possible win scenarios
@@ -81,9 +99,11 @@ function BoardManager () {
 			for (var i = 0; i < self.squares.length; i++) {
 				self.squares[i] = "";
 			}
-			turnCounter = 0;
-			gameOver = false;
-			banner.innerHTML= ("TIC TAC MARIO");
+			turnCounter 		= 0;
+			playerCounter 		= 1;
+			gameOver			= false;
+			banner.innerHTML	= ("TIC TAC MARIO");
+			whoseTurn.innerHTML = ("It's X's Turn")
 		}
 	};
 	return gameBoard;
