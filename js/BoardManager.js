@@ -19,7 +19,7 @@ function BoardManager ($firebase) {
 			var ref 			= new Firebase ("https://tictacmario.firebaseio.com/");
 			self.mario 			= $firebase(ref).$asObject();
 			self.mario.board 	= ["", "", "", "", "", "", "", "", ""];
-			self.mario.gameInfo = {turnCounter: 0, playerCounter: 1, xScore: 0, oScore: 0, whoseTurn: "X Goes First", banner: "TIC TAC MARIO", gameOver: false}
+			self.mario.gameInfo = {turnCounter: 0, playerCounter: 1, xScore: 0, oScore: 0, whoseTurn: "X Goes First", banner: "TIC TAC MARIO", gameOver: false};
 			self.mario.$save();
 
 			return self.mario;
