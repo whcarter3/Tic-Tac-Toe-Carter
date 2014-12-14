@@ -24,22 +24,20 @@
 
 	<body ng-controller="TicTacToeController as tic">
 		<div class="container">
-			<span class="scoreboard" id="left">X Score: 0</span>
-			<span class="scoreboard" id="right">O Score: 0</span>
+			<span class="scoreboard" id="xScore">X Score: {{tic.manager.mario.gameInfo.xScore}}</span>
+			<span class="scoreboard" id="oScore">O Score: {{tic.manager.mario.gameInfo.oScore}}</span>
 			<header>
 				<br>
-				<h1 id="banner">TIC TAC MARIO</h1>
-				<span class="scoreboard" id="whoseTurn">X Goes First!</span>
+				<h1 id="banner">{{tic.manager.mario.gameInfo.banner}}</h1>
+				<span class="scoreboard" id="whoseTurn">{{tic.manager.mario.gameInfo.whoseTurn}}</span>
 			</header>
 			<main>
 				<div class="game-board">
 					<div class="game-square" 
-					ng-repeat="square in tic.board.mario.array track by $index"
-					ng-click="tic.board.isActive($index)">
-					<!-- ng-class="tic.board.getSquareState($index)" -->
-					{{tic.board.mario.array[$index]}}</div>
+					ng-repeat="square in tic.manager.mario.board track by $index"
+					ng-click="tic.manager.isActive($index)">{{tic.manager.mario.board[$index]}}</div>
 				</div><br>
-				<button ng-click="tic.board.clearBoard()">START OVER</button>
+				<button ng-click="tic.manager.clearBoard()">START OVER</button>
 			</main>
 		</div>
 	</body>
