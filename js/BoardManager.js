@@ -2,25 +2,26 @@ angular
 	.module('TicTacToe')
 	.factory('BoardManager', BoardManager);
 
-BoardManager.$inject=['$firebase']
+BoardManager.$inject=['$firebase'];
 
 function BoardManager ($firebase) {
 	var SQUARE_STATE = ['unselected-square', 'x-selected', 'o-selected'];
 
 
 
-	var gameBoard = function  (numSquares) {
+	var gameBoard = function (numSquares) {
 		var self = this;
-		self.squares 		= new Array( numSquares );
+		// self.squares 		= new Array( numSquares );
 		self.switchTurn 	= switchTurn;
 		self.clearBoard 	= clearBoard;
 		self.winCombo 		= winCombo;
 		self.gameOver		= gameOver;
 		self.xCounter 		= xCounter;
 		self.oCounter		= oCounter;
-		self.getBoard		= getBoard();
+		// self.getBoard		= getBoard();
 		self.isActive 		= isActive;
-		self.clearBoard();
+		// self.clearBoard();
+		self.getBoard		= getBoard();
 		
 		var turnCounter 	= 0;
 		var playerCounter 	= 1;
@@ -28,12 +29,26 @@ function BoardManager ($firebase) {
 		var oCounter		= 0;
 		var gameOver 		= false;
 
-		function getBoard () {
-			var ref 	= new Firebase ("https://tictacmario.firebaseio.com/")
-			var game 	= $firebase(ref).$asObject();
 
-			return game;
+		function getBoard(){
+			var ref 	= new Firebase ("https://tictacmario.firebaseio.com/board");
+			self.mario = $firebase(ref).$asObject();
+			self.mario.array = ["", "", "", "", "", "", "", "", ""];
+			self.mario.$save();
+
+			// self.mario.$loaded(function() {
+			// 	self.squares = self.mario.array;
+			// });
+
+			return self.mario;
 		}
+
+		// function getBoard () {
+		// 	var ref 	= new Firebase ("https://tictacmario.firebaseio.com/ttt")
+		// 	var game 	= $firebase(ref).$asObject();
+
+		// 	return game;
+		// }
 
 		//if game over === true, it won't run switchTurn
 		function isActive (index) {
@@ -44,18 +59,21 @@ function BoardManager ($firebase) {
 		
 		function switchTurn (index) {
 			//if the content of the squares div (referred to by index) is equal to "" allow players to click squares
-			if (self.squares[index] == "") {	
+			if (self.mario.array[index] == "") {	
 				if (playerCounter == 1) {
-					self.squares[index] = "X";
+					self.mario.array[index] = "X";
 					playerCounter 		= 2;
 					whoseTurn.innerHTML = ("It's O's Turn");
+					console.log("playerCounter")
 				} else {
-					self.squares[index] = "O";
+					self.mario.array[index] = "O";
 					playerCounter 		= 1;
 					whoseTurn.innerHTML	= ("It's X's Turn")
 				}
 				turnCounter ++;
+				self.mario.$save();
 				console.log("Turn counter =" + turnCounter);
+				
 			}
 
 			if (self.winCombo("X")) {
@@ -84,26 +102,28 @@ function BoardManager ($firebase) {
 		//all possible win scenarios
 		function winCombo (marker) {
 			return (
-					(self.squares[0] == marker && self.squares[1] == marker && self.squares[2] == marker) || //horizontal wins 
-					(self.squares[3] == marker && self.squares[4] == marker && self.squares[5] == marker) ||
-					(self.squares[6] == marker && self.squares[7] == marker && self.squares[8] == marker) ||
-					(self.squares[0] == marker && self.squares[3] == marker && self.squares[6] == marker) || //vertical wins
-					(self.squares[1] == marker && self.squares[4] == marker && self.squares[7] == marker) ||
-					(self.squares[2] == marker && self.squares[5] == marker && self.squares[8] == marker) ||
-					(self.squares[2] == marker && self.squares[4] == marker && self.squares[6] == marker) || //diagonal wins
-					(self.squares[0] == marker && self.squares[4] == marker && self.squares[8] == marker) 
+					(self.mario.array[0] == marker && self.mario.array[1] == marker && self.mario.array[2] == marker) || //horizontal wins 
+					(self.mario.array[3] == marker && self.mario.array[4] == marker && self.mario.array[5] == marker) ||
+					(self.mario.array[6] == marker && self.mario.array[7] == marker && self.mario.array[8] == marker) ||
+					(self.mario.array[0] == marker && self.mario.array[3] == marker && self.mario.array[6] == marker) || //vertical wins
+					(self.mario.array[1] == marker && self.mario.array[4] == marker && self.mario.array[7] == marker) ||
+					(self.mario.array[2] == marker && self.mario.array[5] == marker && self.mario.array[8] == marker) ||
+					(self.mario.array[2] == marker && self.mario.array[4] == marker && self.mario.array[6] == marker) || //diagonal wins
+					(self.mario.array[0] == marker && self.mario.array[4] == marker && self.mario.array[8] == marker) 
 				)
 		}
 		//sets the value of each square to an empty string & resets the turn conter
 		function clearBoard() {
-			for (var i = 0; i < self.squares.length; i++) {
-				self.squares[i] = "";
-			}
+			// for (var i = 0; i < self.mario.array.length; i++) {
+			// 	self.mario.array[i] = "";
+			// }
+			self.mario.array = ["", "", "", "", "", "", "", "", ""];
+			self.mario.$save();
 			turnCounter 		= 0;
 			playerCounter 		= 1;
 			gameOver			= false;
 			banner.innerHTML	= ("TIC TAC MARIO");
-			whoseTurn.innerHTML = ("It's X's Turn")
+			whoseTurn.innerHTML = ("It's X's Turn");
 		}
 	};
 	return gameBoard;
