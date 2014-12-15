@@ -83,17 +83,3 @@ button {
 	display: inline-block;
 	letter-spacing: 1px;
 }
-
-/*.game-square.unselected-square {
-	background-color: white;
-}
-
-.game-square.x-selected {
-	background-image: url("../img/letter-x.jpeg");
-	width: 150px;
-	height: 150px;
-}
-
-.game-square.o-selected {
-	background-image: url("../img/letter-o.jpg");
-}*/

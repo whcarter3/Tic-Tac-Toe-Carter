@@ -5,7 +5,6 @@ angular
 BoardManager.$inject=['$firebase'];
 
 function BoardManager ($firebase) {
-	var SQUARE_STATE = ['unselected-square', 'x-selected', 'o-selected'];
 
 	var gameBoard = function () {
 		var self = this;
@@ -47,7 +46,7 @@ function BoardManager ($firebase) {
 				switchTurn(index);
 			};
 		}
-		
+
 		function switchTurn (index) {
 			//if the content of the squares div (referred to by index) is equal to "" allow players to click squares
 			if (self.mario.board[index] == "") {
@@ -106,7 +105,6 @@ function BoardManager ($firebase) {
 		function clearBoard() {
 			self.mario.board 					= ["", "", "", "", "", "", "", "", ""];
 			self.mario.gameInfo.turnCounter		= 1;
-			// self.mario.gameInfo.playerCounter	= 1;
 			self.mario.gameInfo.gameOver		= false;
 			self.mario.gameInfo.banner			= ("TIC TAC MARIO");
 			self.mario.gameInfo.whoseTurn 		= ("X Goes First!");
