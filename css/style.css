@@ -30,8 +30,10 @@ body {
 	font-size: 150px;
 	color: white;
 	vertical-align: top;
+	text-shadow: 10px 10px 30px black, -10px -10px 30px black;
 	background-image: url("../img/coin-block.jpg");
 	cursor: pointer;
+	
 }
 
 .game-square:hover {

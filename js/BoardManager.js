@@ -15,12 +15,28 @@ function BoardManager ($firebase) {
 		self.isActive 		= isActive;
 		self.getBoard		= getBoard();
 
+		self.mario.$loaded(function(){
+
+			if(!self.mario.gameInfo.numPlayers) {
+				self.mario.gameInfo.numPlayers = 0;
+				self.mario.gameInfo.turnCounter = 1;
+				self.mario.gameInfo.xScore = 0;
+				self.mario.gameInfo.oScore = 0;
+				
+				self.mario.$save();
+			}
+			self.playerNum = self.mario.gameInfo.numPlayers;
+			self.mario.gameInfo.numPlayers = self.mario.gameInfo.numPlayers += 1;
+			
+			console.log(self.mario.gameInfo.numPlayers);
+			self.mario.$save();
+		});
+
 		function getBoard(){
 			var ref 			= new Firebase ("https://tictacmario.firebaseio.com/");
 			self.mario 			= $firebase(ref).$asObject();
 			self.mario.board 	= ["", "", "", "", "", "", "", "", ""];
-			self.mario.gameInfo = {turnCounter: 0, playerCounter: 1, xScore: 0, oScore: 0, whoseTurn: "X Goes First", banner: "TIC TAC MARIO", gameOver: false};
-			self.mario.$save();
+			self.mario.gameInfo = {whoseTurn: "X Goes First", banner: "TIC TAC MARIO", gameOver: false};
 
 			return self.mario;
 		}
@@ -34,36 +50,36 @@ function BoardManager ($firebase) {
 		
 		function switchTurn (index) {
 			//if the content of the squares div (referred to by index) is equal to "" allow players to click squares
-			if (self.mario.board[index] == "") {	
-				if (self.mario.gameInfo.playerCounter == 1) {
-					self.mario.board[index] 			= "X";
-					self.mario.gameInfo.playerCounter 	= 2;
-					self.mario.gameInfo.whoseTurn 		= ("It's O's Turn");
+			if (self.mario.board[index] == "") {
+					if ((self.mario.gameInfo.turnCounter % 2 !== 0) && self.playerNum == 0) {
+						self.mario.board[index] 			= "X";
+						self.mario.gameInfo.whoseTurn 		= ("It's O's Turn");
+						self.mario.gameInfo.turnCounter ++;
 
-				} else {
-					self.mario.board[index] 			= "O";
-					self.mario.gameInfo.playerCounter 	= 1;
-					self.mario.gameInfo.whoseTurn		= ("It's X's Turn")
-				}
-				self.mario.gameInfo.turnCounter ++;
+					} else if ((self.mario.gameInfo.turnCounter % 2 == 0) && self.playerNum == 1) {
+						self.mario.board[index] 			= "O";
+						self.mario.gameInfo.whoseTurn		= ("It's X's Turn");
+						self.mario.gameInfo.turnCounter ++;
+					}
 				self.mario.gameInfo.banner = ("HERE WE GO!");
-			}
+			
 
-			//if any of the win combos = X, X wins
-			if (self.winCombo("X")) {
-				self.mario.gameInfo.banner		= ("X WINS!");
-				self.mario.gameInfo.gameOver	= true;
-				self.mario.gameInfo.xScore++;
-			}
+				//if any of the win combos = X, X wins
+				if (self.winCombo("X")) {
+					self.mario.gameInfo.banner		= ("X WINS!");
+					self.mario.gameInfo.gameOver	= true;
+					self.mario.gameInfo.xScore++;
+				}
 
-			//if any of the win combos = O, O wins
-			if (self.winCombo("O")) {
-				self.mario.gameInfo.banner		= ("0 WINS!");
-				self.mario.gameInfo.gameOver 	= true;
-				self.mario.gameInfo.oScore ++;
+				//if any of the win combos = O, O wins
+				if (self.winCombo("O")) {
+					self.mario.gameInfo.banner		= ("0 WINS!");
+					self.mario.gameInfo.gameOver 	= true;
+					self.mario.gameInfo.oScore ++;
+				}
 			}
 			//if after 9 turns & no winner = cat's game
-			if (self.mario.gameInfo.turnCounter == 9) {
+			if (self.mario.gameInfo.turnCounter == 10 && self.mario.gameInfo.gameOver == false) {
 				self.mario.gameInfo.banner		= ("CAT'S GAME!");
 				self.mario.gameInfo.gameOver 	= true;
 			}
@@ -89,8 +105,8 @@ function BoardManager ($firebase) {
 		//sets the value of each square to an empty string & resets the turn conter
 		function clearBoard() {
 			self.mario.board 					= ["", "", "", "", "", "", "", "", ""];
-			self.mario.gameInfo.turnCounter		= 0;
-			self.mario.gameInfo.playerCounter	= 1;
+			self.mario.gameInfo.turnCounter		= 1;
+			// self.mario.gameInfo.playerCounter	= 1;
 			self.mario.gameInfo.gameOver		= false;
 			self.mario.gameInfo.banner			= ("TIC TAC MARIO");
 			self.mario.gameInfo.whoseTurn 		= ("X Goes First!");
