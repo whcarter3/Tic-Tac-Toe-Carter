@@ -84,10 +84,10 @@ button {
 	letter-spacing: 1px;
 }
 
-.X {
+.mushroom {
 	background-image: url('../img/empty-mushroom.png');
 }
 
-.O {
+.coin {
 	background-image: url('../img/empty-coin.png');
 }

@@ -17,10 +17,10 @@ function BoardManager ($firebase) {
 		self.mario.$loaded(function(){
 
 			if(!self.mario.gameInfo.numPlayers) {
-				self.mario.gameInfo.numPlayers 	= 0;
-				self.mario.gameInfo.turnCounter = 1;
-				self.mario.gameInfo.xScore 		= 0;
-				self.mario.gameInfo.oScore 		= 0;
+				self.mario.gameInfo.numPlayers 		= 0;
+				self.mario.gameInfo.turnCounter 	= 1;
+				self.mario.gameInfo.mushroomScore 	= 0;
+				self.mario.gameInfo.coinScore 		= 0;
 				
 				self.mario.$save();
 			}
@@ -35,7 +35,7 @@ function BoardManager ($firebase) {
 			var ref 			= new Firebase ("https://tictacmario.firebaseio.com/");
 			self.mario 			= $firebase(ref).$asObject();
 			self.mario.board 	= ["", "", "", "", "", "", "", "", ""];
-			self.mario.gameInfo = {whoseTurn: "X Goes First", banner: "TIC TAC MARIO", gameOver: false};
+			self.mario.gameInfo = {whoseTurn: "Mushroom Goes First", banner: "TIC TAC MARIO", gameOver: false};
 
 			return self.mario;
 		}
@@ -51,12 +51,12 @@ function BoardManager ($firebase) {
 			//if the content of the squares div (referred to by index) is equal to "" allow players to click squares
 			if (self.mario.board[index] == "") {
 					if ((self.mario.gameInfo.turnCounter % 2 !== 0) && self.playerNum == 0) {
-						self.mario.board[index] 			= "X";
+						self.mario.board[index] 			= "mushroom";
 						self.mario.gameInfo.whoseTurn 		= ("It's O's Turn");
 						self.mario.gameInfo.turnCounter ++;
 
 					} else if ((self.mario.gameInfo.turnCounter % 2 == 0) && self.playerNum == 1) {
-						self.mario.board[index] 			= "O";
+						self.mario.board[index] 			= "coin";
 						self.mario.gameInfo.whoseTurn		= ("It's X's Turn");
 						self.mario.gameInfo.turnCounter ++;
 					}
@@ -64,17 +64,17 @@ function BoardManager ($firebase) {
 			
 
 				//if any of the win combos = X, X wins
-				if (self.winCombo("X")) {
-					self.mario.gameInfo.banner		= ("X WINS!");
+				if (self.winCombo("mushroom")) {
+					self.mario.gameInfo.banner		= ("MUSHROOM WINS!");
 					self.mario.gameInfo.gameOver	= true;
-					self.mario.gameInfo.xScore++;
+					self.mario.gameInfo.mushroomScore++;
 				}
 
 				//if any of the win combos = O, O wins
-				if (self.winCombo("O")) {
-					self.mario.gameInfo.banner		= ("0 WINS!");
+				if (self.winCombo("coin")) {
+					self.mario.gameInfo.banner		= ("COIN WINS!");
 					self.mario.gameInfo.gameOver 	= true;
-					self.mario.gameInfo.oScore ++;
+					self.mario.gameInfo.coinScore ++;
 				}
 			}
 			//if after 9 turns & no winner = cat's game
@@ -107,7 +107,7 @@ function BoardManager ($firebase) {
 			self.mario.gameInfo.turnCounter		= 1;
 			self.mario.gameInfo.gameOver		= false;
 			self.mario.gameInfo.banner			= ("TIC TAC MARIO");
-			self.mario.gameInfo.whoseTurn 		= ("X Goes First!");
+			self.mario.gameInfo.whoseTurn 		= ("Mushroom Goes First!");
 			self.mario.$save();
 		}
 	};
