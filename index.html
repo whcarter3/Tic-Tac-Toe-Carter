@@ -33,9 +33,10 @@
 			</header>
 			<main>
 				<div class="game-board">
-					<div class="game-square" 
+					<div class="game-square"
 					ng-repeat="square in tic.manager.mario.board track by $index"
-					ng-click="tic.manager.isActive($index)">{{tic.manager.mario.board[$index]}}</div>
+					ng-click="tic.manager.isActive($index)"
+					ng-class="square"></div>
 				</div><br>
 				<button ng-click="tic.manager.clearBoard()">START OVER</button>
 			</main>

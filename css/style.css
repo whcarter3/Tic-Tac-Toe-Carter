@@ -36,9 +36,9 @@ body {
 	
 }
 
-.game-square:hover {
+/*#game-square:hover {
 	background-image: url('../img/coin-block-hover.jpg');
-}
+}*/
 
 .scoreboard {
 	font-family: 'press_start_2pregular';
@@ -82,4 +82,12 @@ button {
 	margin: 5px 10px;
 	display: inline-block;
 	letter-spacing: 1px;
+}
+
+.X {
+	background-image: url('../img/empty-mushroom.png');
+}
+
+.O {
+	background-image: url('../img/empty-coin.png');
 }

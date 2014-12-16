@@ -17,10 +17,10 @@ function BoardManager ($firebase) {
 		self.mario.$loaded(function(){
 
 			if(!self.mario.gameInfo.numPlayers) {
-				self.mario.gameInfo.numPlayers = 0;
+				self.mario.gameInfo.numPlayers 	= 0;
 				self.mario.gameInfo.turnCounter = 1;
-				self.mario.gameInfo.xScore = 0;
-				self.mario.gameInfo.oScore = 0;
+				self.mario.gameInfo.xScore 		= 0;
+				self.mario.gameInfo.oScore 		= 0;
 				
 				self.mario.$save();
 			}
