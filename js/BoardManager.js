@@ -50,18 +50,17 @@ function BoardManager ($firebase) {
 		function switchTurn (index) {
 			//if the content of the squares div (referred to by index) is equal to "" allow players to click squares
 			if (self.mario.board[index] == "") {
+					self.mario.gameInfo.banner = ("HERE WE GO!");
 					if ((self.mario.gameInfo.turnCounter % 2 !== 0) && self.playerNum == 0) {
 						self.mario.board[index] 			= "mushroom";
-						self.mario.gameInfo.whoseTurn 		= ("It's O's Turn");
+						self.mario.gameInfo.whoseTurn 		= ("It's Coin's Turn");
 						self.mario.gameInfo.turnCounter ++;
 
 					} else if ((self.mario.gameInfo.turnCounter % 2 == 0) && self.playerNum == 1) {
 						self.mario.board[index] 			= "coin";
-						self.mario.gameInfo.whoseTurn		= ("It's X's Turn");
+						self.mario.gameInfo.whoseTurn		= ("It's Mushroom's Turn");
 						self.mario.gameInfo.turnCounter ++;
 					}
-				self.mario.gameInfo.banner = ("HERE WE GO!");
-			
 
 				//if any of the win combos = X, X wins
 				if (self.winCombo("mushroom")) {
@@ -76,6 +75,7 @@ function BoardManager ($firebase) {
 					self.mario.gameInfo.gameOver 	= true;
 					self.mario.gameInfo.coinScore ++;
 				}
+				self.mario.$save();
 			}
 			//if after 9 turns & no winner = cat's game
 			if (self.mario.gameInfo.turnCounter == 10 && self.mario.gameInfo.gameOver == false) {
